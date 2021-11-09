@@ -9,7 +9,7 @@ class CustomUserManager(BaseUserManager):
         try:
             validate_email(email)
         except ValidationError:
-            raise ValueError(_("You must provide a validate email address"))
+            raise ValueError(_("You must provide a valid email address"))
 
     def create_user(
         self, username, first_name, last_name, email, password, **extra_fields
@@ -17,9 +17,9 @@ class CustomUserManager(BaseUserManager):
         if not username:
             raise ValueError(_("Users must submit a username"))
         if not first_name:
-            raise ValueError(_("Users must submit first ame"))
+            raise ValueError(_("Users must submit a first ame"))
         if not last_name:
-            raise ValueError(_("Users must submit las name"))
+            raise ValueError(_("Users must submit a last name"))
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
@@ -59,7 +59,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_("Admin Account: An email address must be provided"))
 
         user = self.create_user(
-            username, email, password, last_name, first_name, **extra_fields
+            username, first_name, last_name, email, password, **extra_fields
         )
         user.save(using=self._db)
         return user
